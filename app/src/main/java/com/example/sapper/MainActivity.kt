@@ -2,17 +2,22 @@ package com.example.sapper
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sapper.adapter.GreedRecyclerViewAdapter
 import java.util.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ItemClickListener {
+
+    companion object {
+        const val TAG = Constants.TAG + " MainActivity"
+        private const val columns = 5
+    }
 
     private lateinit var grid: RecyclerView
     var adapter: GreedRecyclerViewAdapter? = null
-    private val columns = 5
     private val field: MutableList<Int> = generateField(columns)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,6 +29,9 @@ class MainActivity : AppCompatActivity() {
         val layoutManager = GridLayoutManager(this, columns)
         grid.layoutManager = layoutManager
         adapter = GreedRecyclerViewAdapter(field)
+                .apply {
+                    setListener(this@MainActivity)
+                }
         grid.adapter = adapter
 
     }
@@ -36,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val bombs: MutableSet<Int> = mutableSetOf()
-        for (i in 0..columns){
+        for (i in 0..columns) {
             val nextCell = random.nextInt(columns * columns)
             bombs.add(nextCell)
         }
@@ -46,5 +54,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         return field
+    }
+
+    override fun onItemClick(position: Int) {
+        Log.d(TAG, " itemClickListener")
     }
 }

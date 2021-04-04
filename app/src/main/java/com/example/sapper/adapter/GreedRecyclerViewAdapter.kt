@@ -5,11 +5,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
+import com.example.sapper.ItemClickListener
 import com.example.sapper.R
+import java.util.*
 
 class GreedRecyclerViewAdapter internal constructor(
     private val data: MutableList<Int>
 ) : RecyclerView.Adapter<GreedRecyclerViewAdapter.ViewHolder>() {
+
+    private var listener: ItemClickListener? = null
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(viewGroup.context)
@@ -26,7 +30,19 @@ class GreedRecyclerViewAdapter internal constructor(
 
     override fun getItemCount() = data.size
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val button: Button = itemView.findViewById(R.id.cell)
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val button: Button = view.findViewById<Button>(R.id.cell)
+            .apply {
+                setOnClickListener {
+                    listener?.onItemClick(adapterPosition)
+                }
+            }
+
+
+    }
+
+    fun setListener(itemClickListener: ItemClickListener?) {
+        listener = itemClickListener
+
     }
 }
