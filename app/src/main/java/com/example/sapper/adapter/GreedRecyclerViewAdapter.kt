@@ -35,7 +35,7 @@ class GreedRecyclerViewAdapter internal constructor(
             // bomb unpressed
             10 -> {
                 viewHolder.button.setBackgroundColor(Color.parseColor("#797D7F"))
-                viewHolder.button.text = "bomb"
+                viewHolder.button.text = ""
             }
             // empty pressed with number
             0, 1, 2, 3, 4, 5, 6, 7, 8, 9 -> {

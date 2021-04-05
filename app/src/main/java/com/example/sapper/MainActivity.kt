@@ -56,10 +56,27 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
         return field
     }
 
+    private fun countBombsNearby(position: Int) : Int{
+
+        val topLeft = if(try { field[position - columns - 1] } catch (ex: IndexOutOfBoundsException) { 0 } == 10 && position % columns != 0) 1 else 0
+        val top = if (try { field[position - columns ] } catch (ex: IndexOutOfBoundsException) { 0 } == 10) 1 else 0
+        val topRight = if (try { field[position - columns + 1] } catch (ex: IndexOutOfBoundsException) { 0 } == 10 && (position + 1) % columns != 0 ) 1 else 0
+
+        val left = if (try { field[position - 1] } catch (ex: IndexOutOfBoundsException) { 0 } == 10 && position % columns != 0) 1 else 0
+        val right = if (try { field[position + 1] } catch (ex: IndexOutOfBoundsException) { 0 } == 10 && (position + 1) % columns != 0) 1 else 0
+
+        val bottomLeft = if (try { field[position + columns - 1] } catch (ex: IndexOutOfBoundsException) { 0 } == 10 && position % columns != 0) 1 else 0
+        val bottom = if (try { field[position + columns ] } catch (ex: IndexOutOfBoundsException) { 0 } == 10) 1 else 0
+        val bottomRight = if (try { field[position + columns + 1] } catch (ex: IndexOutOfBoundsException) { 0 } == 10 && (position + 1) % columns != 0) 1 else 0
+
+        return topLeft + top + topRight + left + right + bottomLeft + bottom + bottomRight
+    }
+
     override fun onItemClick(position: Int) {
         val value = field[position]
         if (value == -1) {
-            field[position] = 0
+
+            field[position] = countBombsNearby(position)
         } else if (value == 10) {
             for (i in 0 until field.size) {
                 if (field[i] == 10) {
