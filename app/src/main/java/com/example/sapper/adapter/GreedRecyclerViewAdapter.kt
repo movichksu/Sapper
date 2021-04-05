@@ -60,11 +60,14 @@ class GreedRecyclerViewAdapter internal constructor(
                     }
                 }
 
-
     }
 
     fun setListener(itemClickListener: ItemClickListener?) {
         listener = itemClickListener
+    }
 
+    fun cellChanged(position: Int, value: Int) {
+        data[position] = value
+        notifyDataSetChanged()
     }
 }
