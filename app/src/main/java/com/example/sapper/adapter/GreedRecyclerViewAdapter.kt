@@ -1,5 +1,6 @@
 package com.example.sapper.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +26,28 @@ class GreedRecyclerViewAdapter internal constructor(
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
 
         val item = data[position]
-        viewHolder.button.text = item.toString()
+        when(item){
+            // empty unpressed
+            -1 -> {
+                viewHolder.button.setBackgroundColor(Color.parseColor("#797D7F"))
+                viewHolder.button.text = ""
+            }
+            // bomb unpressed
+            10 -> {
+                viewHolder.button.setBackgroundColor(Color.parseColor("#797D7F"))
+                viewHolder.button.text = "bomb"
+            }
+            // empty pressed with number
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 9 -> {
+                viewHolder.button.setBackgroundColor(Color.parseColor("#E5E7E9"))
+                viewHolder.button.text = item.toString()
+            }
+            // bomb pressed
+            11 -> {
+                viewHolder.button.setBackgroundColor(Color.parseColor("#E74C3C"))
+                viewHolder.button.text = ""
+            }
+        }
     }
 
     override fun getItemCount() = data.size
