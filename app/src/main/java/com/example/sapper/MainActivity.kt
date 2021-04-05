@@ -4,36 +4,53 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sapper.adapter.GreedRecyclerViewAdapter
+import java.lang.Integer.parseInt
 import java.util.*
 
 class MainActivity : AppCompatActivity(), ItemClickListener {
 
     companion object {
         const val TAG = Constants.TAG + " MainActivity"
-        private const val columns = 5
     }
 
+    private var columns = 0
     private lateinit var grid: RecyclerView
     var adapter: GreedRecyclerViewAdapter? = null
-    private val field: MutableList<Int> = generateField(columns)
+    private lateinit var field: MutableList<Int>
+    private lateinit var columnsInput: EditText
+    private lateinit var startGameBtn: Button
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
 
         grid = findViewById(R.id.grid)
+        columnsInput = findViewById(R.id.num_of_columns_input)
+        startGameBtn = findViewById(R.id.start_game_btn)
 
-        val layoutManager = GridLayoutManager(this, columns)
-        grid.layoutManager = layoutManager
-        adapter = GreedRecyclerViewAdapter(field)
-                .apply {
-                    setListener(this@MainActivity)
-                }
-        grid.adapter = adapter
-
+        startGameBtn.setOnClickListener {
+            if (parseInt(columnsInput.text.toString()) <= Constants.COLUMNS_MAX && parseInt(columnsInput.text.toString()) > 0) {
+                columns = parseInt(columnsInput.text.toString())
+                field = generateField(columns)
+                val layoutManager = GridLayoutManager(this, columns)
+                grid.layoutManager = layoutManager
+                adapter = GreedRecyclerViewAdapter(field)
+                        .apply {
+                            setListener(this@MainActivity)
+                        }
+                grid.adapter = adapter
+            } else {
+                val toast = Toast.makeText(this@MainActivity, getString(R.string.wrong_cells_input_toast), Toast.LENGTH_LONG)
+                toast.show()
+            }
+        }
     }
 
     private fun generateField(columns: Int): MutableList<Int> {
@@ -80,6 +97,8 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
             for (i in 0 until field.size) {
                 if (field[i] == 10) {
                     adapter?.cellChanged(i, 11)
+                } else if (field[i] == -1) {
+                    adapter?.cellChanged(i, 12)
                 }
             }
         }

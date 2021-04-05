@@ -47,6 +47,11 @@ class GreedRecyclerViewAdapter internal constructor(
                 viewHolder.button.setBackgroundColor(Color.parseColor("#E74C3C"))
                 viewHolder.button.text = "bomb"
             }
+            // empty unpressed cells after bomb click
+            12 -> {
+                viewHolder.button.setBackgroundColor(Color.parseColor("#797D7F"))
+                viewHolder.button.text = ""
+            }
         }
     }
 
