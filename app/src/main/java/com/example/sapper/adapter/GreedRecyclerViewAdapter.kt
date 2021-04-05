@@ -11,14 +11,14 @@ import com.example.sapper.R
 import java.util.*
 
 class GreedRecyclerViewAdapter internal constructor(
-    private val data: MutableList<Int>
+        private val data: MutableList<Int>
 ) : RecyclerView.Adapter<GreedRecyclerViewAdapter.ViewHolder>() {
 
     private var listener: ItemClickListener? = null
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.item, viewGroup, false)
+                .inflate(R.layout.item, viewGroup, false)
 
         return ViewHolder(view)
     }
@@ -26,7 +26,7 @@ class GreedRecyclerViewAdapter internal constructor(
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
 
         val item = data[position]
-        when(item){
+        when (item) {
             // empty unpressed
             -1 -> {
                 viewHolder.button.setBackgroundColor(Color.parseColor("#797D7F"))
@@ -45,7 +45,7 @@ class GreedRecyclerViewAdapter internal constructor(
             // bomb pressed
             11 -> {
                 viewHolder.button.setBackgroundColor(Color.parseColor("#E74C3C"))
-                viewHolder.button.text = ""
+                viewHolder.button.text = "bomb"
             }
         }
     }
@@ -54,11 +54,11 @@ class GreedRecyclerViewAdapter internal constructor(
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val button: Button = view.findViewById<Button>(R.id.cell)
-            .apply {
-                setOnClickListener {
-                    listener?.onItemClick(adapterPosition)
+                .apply {
+                    setOnClickListener {
+                        listener?.onItemClick(adapterPosition)
+                    }
                 }
-            }
 
 
     }

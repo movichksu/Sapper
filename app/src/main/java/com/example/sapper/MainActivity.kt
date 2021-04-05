@@ -57,6 +57,22 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
     }
 
     override fun onItemClick(position: Int) {
+        val value = field[position]
+        if (value == -1) {
+            field[position] = 0
+        } else if (value == 10) {
+            for (i in 0 until field.size) {
+                if (field[i] == 10) {
+                    field[i] = 11
+                }
+            }
+            field[position] = 11
+        }
+        adapter = GreedRecyclerViewAdapter(field)
+                .apply {
+                    setListener(this@MainActivity)
+                }
+        grid.adapter = adapter
         Log.d(TAG, " itemClickListener")
     }
 }
