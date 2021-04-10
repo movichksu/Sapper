@@ -3,13 +3,12 @@ package com.example.sapper
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.sapper.adapter.GreedRecyclerViewAdapter
+import com.example.sapper.adapter.GridRecyclerViewAdapter
 import java.lang.Integer.parseInt
 import java.util.*
 
@@ -21,7 +20,7 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
 
     private var columns = 0
     private lateinit var grid: RecyclerView
-    var adapter: GreedRecyclerViewAdapter? = null
+    var adapter: GridRecyclerViewAdapter? = null
     private lateinit var field: MutableList<Int>
     private lateinit var columnsInput: EditText
     private lateinit var startGameBtn: Button
@@ -36,12 +35,12 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
         startGameBtn = findViewById(R.id.start_game_btn)
 
         startGameBtn.setOnClickListener {
-            if (parseInt(columnsInput.text.toString()) <= Constants.COLUMNS_MAX && parseInt(columnsInput.text.toString()) > 0) {
+            if (parseInt(columnsInput.text.toString()) <= Constants.COLUMNS_MAX && parseInt(columnsInput.text.toString()) > Constants.COLUMNS_MIN) {
                 columns = parseInt(columnsInput.text.toString())
                 field = generateField(columns)
                 val layoutManager = GridLayoutManager(this, columns)
                 grid.layoutManager = layoutManager
-                adapter = GreedRecyclerViewAdapter(field)
+                adapter = GridRecyclerViewAdapter(field)
                         .apply {
                             setListener(this@MainActivity)
                         }
@@ -92,13 +91,17 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
     override fun onItemClick(position: Int) {
         val value = field[position]
         if (value == -1) {
-            adapter?.cellChanged(position, countBombsNearby(position))
-        } else if (value == 10) {
+            field[position] = countBombsNearby(position)
+            adapter?.cellChanged(position)
+        }
+        else if (value == 10) {
             for (i in 0 until field.size) {
                 if (field[i] == 10) {
-                    adapter?.cellChanged(i, 11)
+                    field[i] = 11
+                    adapter?.cellChanged(i)
                 } else if (field[i] == -1) {
-                    adapter?.cellChanged(i, 12)
+                    field[i] = 12
+                    adapter?.cellChanged(i)
                 }
             }
         }

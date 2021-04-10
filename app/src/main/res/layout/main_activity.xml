@@ -12,24 +12,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/start_game_btn_text"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.551"
         app:layout_constraintStart_toEndOf="@+id/num_of_columns_input"
         app:layout_constraintTop_toBottomOf="@+id/grid"
-        app:layout_constraintVertical_bias="0.222" />
+        android:layout_margin="@dimen/margin"/>
 
     <EditText
         android:id="@+id/num_of_columns_input"
         android:layout_width="@dimen/columns_input_width"
         android:layout_height="@dimen/columns_input_height"
         android:hint="@string/cells_input_hint"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.123"
+        android:inputType="number"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/grid"
-        app:layout_constraintVertical_bias="0.213" />
+        android:layout_margin="16dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/grid"

@@ -2,6 +2,5 @@
     <string name="app_name">Sapper</string>
     <string name="start_game_btn_text">Start game</string>
     <string name="cells_input_hint">Columns</string>
-    <string name="wrong_cells_input_toast">\" Количество колонок не должно быть больше 8 или меньше 0.\"</string>
-
+    <string name="wrong_cells_input_toast">\" The number of columns should not be more than 8 or less than 0.\"</string>
 </resources>

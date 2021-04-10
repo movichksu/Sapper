@@ -8,11 +8,10 @@ import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sapper.ItemClickListener
 import com.example.sapper.R
-import java.util.*
 
-class GreedRecyclerViewAdapter internal constructor(
+class GridRecyclerViewAdapter internal constructor(
         private val data: MutableList<Int>
-) : RecyclerView.Adapter<GreedRecyclerViewAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<GridRecyclerViewAdapter.ViewHolder>() {
 
     private var listener: ItemClickListener? = null
 
@@ -27,32 +26,28 @@ class GreedRecyclerViewAdapter internal constructor(
 
         val item = data[position]
         when (item) {
-            // empty unpressed
-            -1 -> {
+            CellStates.EMPTY_UNPRESSED.value -> {
                 viewHolder.button.setBackgroundColor(Color.parseColor("#797D7F"))
                 viewHolder.button.text = ""
             }
-            // bomb unpressed
-            10 -> {
+            CellStates.BOMB_UNPRESSED.value -> {
                 viewHolder.button.setBackgroundColor(Color.parseColor("#797D7F"))
                 viewHolder.button.text = ""
             }
-            // empty pressed with number
-            0, 1, 2, 3, 4, 5, 6, 7, 8, 9 -> {
-                viewHolder.button.setBackgroundColor(Color.parseColor("#E5E7E9"))
-                viewHolder.button.text = item.toString()
-            }
-            // bomb pressed
-            11 -> {
+            CellStates.BOMB_PRESSED.value -> {
                 viewHolder.button.setBackgroundColor(Color.parseColor("#E74C3C"))
                 viewHolder.button.text = "bomb"
             }
-            // empty unpressed cells after bomb click
-            12 -> {
+            CellStates.EMPTY_UNPRESSED_AFTER_BOMB_CLICK.value -> {
                 viewHolder.button.setBackgroundColor(Color.parseColor("#797D7F"))
                 viewHolder.button.text = ""
             }
+            else -> {
+                viewHolder.button.setBackgroundColor(Color.parseColor("#E5E7E9"))
+                viewHolder.button.text = item.toString()
+            }
         }
+
     }
 
     override fun getItemCount() = data.size
@@ -71,8 +66,8 @@ class GreedRecyclerViewAdapter internal constructor(
         listener = itemClickListener
     }
 
-    fun cellChanged(position: Int, value: Int) {
-        data[position] = value
-        notifyDataSetChanged()
+    fun cellChanged(position: Int) {
+       notifyItemChanged(position)
     }
+
 }
